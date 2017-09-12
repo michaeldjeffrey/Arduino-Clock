@@ -169,9 +169,7 @@ void incrementBrightness () {
 void cycleMode () {
   modeTimer = millis();
   MODE++;
-  if ( MODE > 4 ) {
-    MODE = 0;
-  }
+  if ( MODE > 4 ) MODE = 0;
   Serial.println(MODE_INSTRUCTIONS[MODE]);
 }
 
