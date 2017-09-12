@@ -26,6 +26,9 @@ int MODE = 0;
 int HOUR = 0;
 int MINUTE = 0;
 
+TimeSpan ONE_MINUTE = TimeSpan(60);
+TimeSpan ONE_HOUR   = TimeSpan(60 * 60);
+
 long COLON_TIMER;
 long MODE_TIMER;
 
@@ -140,18 +143,15 @@ void incrementMode () {
 }
 
 void incrementHour () {
-  DateTime now = RTC.now();
-  TimeSpan oneHour = TimeSpan(60 * 60);
-  RTC.adjust(now + oneHour);
+  RTC.adjust(RTC.now() + ONE_HOUR);
 }
 
 void incrementMinute () {
-  DateTime now = RTC.now();
-  // Don't increase the hour when adjusting minutes.
-  if (now.minute() == 59) {
-    RTC.adjust(now - TimeSpan(60 * 59));
+  if (MINUTE == 59) {
+    // Don't increase the hour when adjusting minutes.
+    RTC.adjust(RTC.now() - (ONE_HOUR - ONE_MINUTE));
   } else {
-    RTC.adjust(now + TimeSpan(60));
+    RTC.adjust(RTC.now() + ONE_MINUTE);
   }
 }
 
