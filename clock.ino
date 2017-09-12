@@ -6,7 +6,7 @@
 RTC_DS3231 RTC;
 Adafruit_7segment disp = Adafruit_7segment();
 
-int COLON_BLINK_RATE = 500;
+int COLON_BLINK_RATE = 500;  // half second
 int MODE_TIMEOUT = 30000;    // 30 seconds
 bool TIME_24_HOUR = false;
 int BRIGHTNESS = 10;
@@ -25,14 +25,15 @@ long modeTimer;
 
 void setup () {
   Serial.begin(9600);
+  
   Wire.begin();
   RTC.begin();
   // Uncomment to set to time of compilation
   //RTC.adjust(DateTime(__DATE__, __TIME__));
   
   disp.begin(0x70);
-  Serial.println("[c]urrent mode | [n]ext mode");
   disp.setBrightness(BRIGHTNESS);
+  
   colonTimer = millis();
   modeTimer = millis();
 }
@@ -73,7 +74,6 @@ void modeTimeout () {
 void blinkColon () {
   if (millis() - colonTimer > COLON_BLINK_RATE) {
     colonTimer = millis();
-
     showColon = !showColon;
   }
   disp.drawColon(showColon);
