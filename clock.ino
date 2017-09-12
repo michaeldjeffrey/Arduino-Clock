@@ -141,9 +141,17 @@ void readOptions () {
   }
 }
 
-void incrementHour () {}
+void incrementHour () {
+  DateTime now = RTC.now();
+  TimeSpan oneHour = TimeSpan(60 * 60);
+  RTC.adjust(now + oneHour);
+}
 
-void incrementMinute () {}
+void incrementMinute () {
+  DateTime now = RTC.now();
+  TimeSpan oneMinute = TimeSpan(60);
+  RTC.adjust(now + oneMinute);
+}
 
 void incrementBrightness () {
   BRIGHTNESS++;
