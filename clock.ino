@@ -36,6 +36,8 @@ void setup () {
   
   colonTimer = millis();
   modeTimer = millis();
+
+  Serial.println("Showing time.");  // Know when interactive.
 }
 
 void loop () {
