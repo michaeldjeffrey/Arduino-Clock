@@ -108,42 +108,27 @@ void readOptions () {
       Serial.println("Resetting time");
       TIME = 0;
     }
-    if (ch == 'c') {
+    if (ch == '1') {
+      cycleMode();
       Serial.print("Current Mode:");
       Serial.println(MODE);
-    }
-    if (ch == 'n') {
-      cycleMode();
-    }
-    if (MODE == 1) {
-      if (ch == 'x') {
+    } else if (ch == '2') {
+      switch (MODE) {
+      case 1:
         TIME_24_HOUR = !TIME_24_HOUR;
+        break;
+      case 2:
+        incrementHour();
+        break;
+      case 3:
+        incrementMinute();
+        break;
+      case 4:
+        incrementBrightness();
+        break;
+      default:
+        break;
       }
-    } else if (MODE == 2) {
-      if (ch == 'i') {
-        // increment hour
-      } else if (ch == 'd') {
-        // decrement hour
-      }
-    } else if (MODE == 3) {
-      if (ch == 'i') {
-        // increment minutes
-      } else if (ch == 'd') {
-        // decrement minutes
-      }
-    } else if (MODE == 4) {
-      if (ch == 'i') {
-        BRIGHTNESS++;
-        if (BRIGHTNESS > 15) {
-          BRIGHTNESS = 1;
-        }
-      } else if (ch == 'd') {
-        BRIGHTNESS--;
-        if (BRIGHTNESS < 0) {
-          BRIGHTNESS = 15;
-        }
-      }
-      disp.setBrightness(BRIGHTNESS);
     }
   }
 }
