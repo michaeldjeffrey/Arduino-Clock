@@ -127,8 +127,6 @@ void readOptions () {
         case 4:
           incrementBrightness();
           break;
-        default:
-          break;
       }
     }
   }
