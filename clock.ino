@@ -3,7 +3,7 @@
 #include "libs/Adafruit_GFX.h"
 #include "libs/RTClib.h"
 
-char *MODE_INSTRUCTIONS[] = {
+char *CURRENT_MODE_PROMPTS[] = {
   "Showing Time",
   "12 - 24 Selection",
   "Change Hours",
@@ -15,22 +15,18 @@ RTC_DS3231 RTC;
 Adafruit_7segment disp = Adafruit_7segment();
 
 bool IS_PM = false;
+bool TIME_24_HOUR = false;
+bool SHOW_COLON = false;
+
 int COLON_BLINK_RATE = 500;  // half second
 int MODE_TIMEOUT = 30000;    // 30 seconds
-bool TIME_24_HOUR = false;
+
 int BRIGHTNESS = 10;
 int MODE = 0;
 int TIME = 0;
-// MODES:
-//  0 = show time
-//  1 = display format
-//  2 = adjust hours
-//  3 = adjust minutes
-//  4 = adjust brightness
 
-long colonTimer;
-bool showColon = false;
-long modeTimer;
+long COLON_TIMER;
+long MODE_TIMER;
 
 void setup () {
   Serial.begin(9600);
@@ -43,8 +39,8 @@ void setup () {
   disp.begin(0x70);
   disp.setBrightness(BRIGHTNESS);
   
-  colonTimer = millis();
-  modeTimer = millis();
+  COLON_TIMER = millis();
+  MODE_TIMER = millis();
 
   Serial.println("Showing time.");  // Know when interactive.
 }
@@ -62,12 +58,12 @@ void loop () {
     disp.print((TIME_24_HOUR ? 24 : 12) * 100);
     break;
   case 2:  // Change Hours.
-    if (showColon) showHour();
+    if (SHOW_COLON) showHour();
     showMinute();
     break;
   case 3:  // Change Minutes.
     showHour();
-    if (showColon) showMinute();
+    if (SHOW_COLON) showMinute();
     break;
   case 4:  // Change Brightness
     disp.print(BRIGHTNESS);
@@ -80,17 +76,17 @@ void loop () {
 }
 
 void modeTimeout () {
-  if (millis() - modeTimer > MODE_TIMEOUT) {
+  if ((millis() - MODE_TIMER) > MODE_TIMEOUT) {
     MODE = 0;
   }
 }
 
 void blinkColon () {
-  if (millis() - colonTimer > COLON_BLINK_RATE) {
-    colonTimer = millis();
-    showColon = !showColon;
+  if ((millis() - COLON_TIMER) > COLON_BLINK_RATE) {
+    COLON_TIMER = millis();
+    SHOW_COLON = !SHOW_COLON;
   }
-  disp.drawColon(showColon);
+  disp.drawColon(SHOW_COLON);
 }
 
 void showHour () {
@@ -114,11 +110,8 @@ void readOptions () {
   if (Serial.available()) {
     char ch = Serial.read();
     // reset modeTimer when interaction.
-    if (ch) modeTimer = millis();
-    if (ch == 'r') {
-      Serial.println("Resetting time");
-      TIME = 0;
-    }
+    if (ch) MODE_TIMER = millis();
+
     if (ch == '1') {
       cycleMode();
     } else if (ch == '2') {
@@ -167,10 +160,10 @@ void incrementBrightness () {
 }
 
 void cycleMode () {
-  modeTimer = millis();
+  MODE_TIMER = millis();
   MODE++;
   if ( MODE > 4 ) MODE = 0;
-  Serial.println(MODE_INSTRUCTIONS[MODE]);
+  Serial.println(CURRENT_MODE_PROMPTS[MODE]);
 }
 
 int getHour () {
