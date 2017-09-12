@@ -23,7 +23,8 @@ int MODE_TIMEOUT = 30000;    // 30 seconds
 
 int BRIGHTNESS = 10;
 int MODE = 0;
-int TIME = 0;
+int HOUR = 0;
+int MINUTE = 0;
 
 long COLON_TIMER;
 long MODE_TIMER;
@@ -46,6 +47,7 @@ void setup () {
 }
 
 void loop () {
+  getTime();
   readOptions();
   modeTimeout();
   disp.clear();
@@ -90,20 +92,17 @@ void blinkColon () {
 }
 
 void showHour () {
-  int hour = getHour();
-
   // Only print first digit for 24 hour time
   // And greater than 10
-  if (TIME_24_HOUR || (hour / 10) > 0) {
-    disp.writeDigitNum(0, hour / 10);
+  if (TIME_24_HOUR || (HOUR / 10) > 0) {
+    disp.writeDigitNum(0, HOUR / 10);
   }
-  disp.writeDigitNum(1, hour % 10);
+  disp.writeDigitNum(1, HOUR % 10);
 }
 
 void showMinute () {
-  int minute = getMinute();
-  disp.writeDigitNum(3, minute / 10);
-  disp.writeDigitNum(4, minute % 10, IS_PM);
+  disp.writeDigitNum(3, MINUTE / 10);
+  disp.writeDigitNum(4, MINUTE % 10, IS_PM);
 }
 
 void readOptions () {
@@ -166,21 +165,17 @@ void incrementBrightness () {
   disp.setBrightness(BRIGHTNESS);
 }
 
-int getHour () {
+void getTime () {
   DateTime now = RTC.now();
-  int hour = now.hour();
+  HOUR = now.hour();
+  MINUTE = now.minute();
 
-  IS_PM = hour > 12;
+  IS_PM = HOUR > 12;
 
   if (!TIME_24_HOUR) {
-    if (hour > 12) hour -=12;
-    if (hour == 0) hour = 12;
+    if (HOUR > 12) HOUR -= 12;
+    if (HOUR == 0) HOUR  = 12;
   }
-  return hour;
 }
 
-int getMinute () {
-  DateTime now = RTC.now();
-  return now.minute();
-}
 
