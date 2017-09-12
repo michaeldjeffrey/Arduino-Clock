@@ -135,7 +135,7 @@ void readOptions () {
 void incrementMode () {
   MODE_TIMER = millis();
   MODE++;
-  if ( MODE > 4 ) MODE = 0;
+  if (MODE > 4) MODE = 0;
   Serial.println(CURRENT_MODE_PROMPTS[MODE]);
 }
 
