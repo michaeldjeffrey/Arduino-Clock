@@ -50,26 +50,26 @@ void loop () {
   modeTimeout();
   disp.clear();
   switch (MODE) {
-  case 0:  // Display Time
-    showHour();
-    showMinute();
-    break;
-  case 1:  // 12 - 24 selection
-    if (SHOW_COLON) disp.print((TIME_24_HOUR ? 24 : 12) * 100);
-    break;
-  case 2:  // Change Hours.
-    if (SHOW_COLON) showHour();
-    showMinute();
-    break;
-  case 3:  // Change Minutes.
-    showHour();
-    if (SHOW_COLON) showMinute();
-    break;
-  case 4:  // Change Brightness
-    disp.print(BRIGHTNESS);
-    break;
-  default: // catch
-    disp.print(MODE);
+    case 0:  // Display Time
+      showHour();
+      showMinute();
+      break;
+    case 1:  // 12 - 24 selection
+      if (SHOW_COLON) disp.print((TIME_24_HOUR ? 24 : 12) * 100);
+      break;
+    case 2:  // Change Hours.
+      if (SHOW_COLON) showHour();
+      showMinute();
+      break;
+    case 3:  // Change Minutes.
+      showHour();
+      if (SHOW_COLON) showMinute();
+      break;
+    case 4:  // Change Brightness
+      disp.print(BRIGHTNESS);
+      break;
+    default: // catch
+      disp.print(MODE);
   }
   blinkColon();
   disp.writeDisplay();
@@ -116,20 +116,20 @@ void readOptions () {
       incrementMode();
     } else if (ch == '2') {
       switch (MODE) {
-      case 1:
-        TIME_24_HOUR = !TIME_24_HOUR;
-        break;
-      case 2:
-        incrementHour();
-        break;
-      case 3:
-        incrementMinute();
-        break;
-      case 4:
-        incrementBrightness();
-        break;
-      default:
-        break;
+        case 1:
+          TIME_24_HOUR = !TIME_24_HOUR;
+          break;
+        case 2:
+          incrementHour();
+          break;
+        case 3:
+          incrementMinute();
+          break;
+        case 4:
+          incrementBrightness();
+          break;
+        default:
+          break;
       }
     }
   }
