@@ -1,7 +1,7 @@
 #include <Wire.h>
-#include "Adafruit_LEDBackpack.h"
-#include "Adafruit_GFX.h"
-#include "RTClib.h"
+#include "libs/Adafruit_LEDBackpack.h"
+#include "libs/Adafruit_GFX.h"
+#include "libs/RTClib.h"
 
 char *MODE_INSTRUCTIONS[] = {
   "Showing Time",
