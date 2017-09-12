@@ -163,6 +163,7 @@ void incrementBrightness () {
   if (BRIGHTNESS > 15) {
     BRIGHTNESS = 0;
   }
+  disp.setBrightness(BRIGHTNESS);
 }
 
 void cycleMode () {
