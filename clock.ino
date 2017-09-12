@@ -172,15 +172,19 @@ void cycleMode () {
   }
 }
 
-int getDecimalTime () {
+int getHour () {
   DateTime now = RTC.now();
   int hour = now.hour();
-  int minute = now.minute();
-  int decimalTime = (hour * 100) + minute;
 
   if (!TIME_24_HOUR) {
-    if (decimalTime > 1200) decimalTime -= 1200;
-    if (decimalTime < 100 ) decimalTime += 1200;
+    if (hour > 12) hour -=12;
+    if (hour == 0) hour = 12;
   }
-  return decimalTime;
+  return hour;
 }
+
+int getMinute () {
+  DateTime now = RTC.now();
+  return now.minute();
+}
+
