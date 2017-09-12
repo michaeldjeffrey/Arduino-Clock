@@ -55,7 +55,7 @@ void loop () {
     showMinute();
     break;
   case 1:  // 12 - 24 selection
-    disp.print((TIME_24_HOUR ? 24 : 12) * 100);
+    if (SHOW_COLON) disp.print((TIME_24_HOUR ? 24 : 12) * 100);
     break;
   case 2:  // Change Hours.
     if (SHOW_COLON) showHour();
