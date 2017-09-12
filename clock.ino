@@ -113,7 +113,7 @@ void readOptions () {
     if (ch) MODE_TIMER = millis();
 
     if (ch == '1') {
-      cycleMode();
+      incrementMode();
     } else if (ch == '2') {
       switch (MODE) {
       case 1:
@@ -133,6 +133,13 @@ void readOptions () {
       }
     }
   }
+}
+
+void incrementMode () {
+  MODE_TIMER = millis();
+  MODE++;
+  if ( MODE > 4 ) MODE = 0;
+  Serial.println(CURRENT_MODE_PROMPTS[MODE]);
 }
 
 void incrementHour () {
@@ -157,13 +164,6 @@ void incrementBrightness () {
     BRIGHTNESS = 0;
   }
   disp.setBrightness(BRIGHTNESS);
-}
-
-void cycleMode () {
-  MODE_TIMER = millis();
-  MODE++;
-  if ( MODE > 4 ) MODE = 0;
-  Serial.println(CURRENT_MODE_PROMPTS[MODE]);
 }
 
 int getHour () {
