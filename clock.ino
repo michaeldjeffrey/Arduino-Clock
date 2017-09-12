@@ -59,7 +59,7 @@ void loop () {
     if (showColon) showMinute();
     break;
   case 4:  // Change Brightness
-    disp.print(BRIGTHNESS);
+    disp.print(BRIGHTNESS);
     break;
   default: // catch
     disp.print(MODE);
