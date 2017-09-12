@@ -14,6 +14,7 @@ char *MODE_INSTRUCTIONS[] = {
 RTC_DS3231 RTC;
 Adafruit_7segment disp = Adafruit_7segment();
 
+bool IS_PM = false;
 int COLON_BLINK_RATE = 500;  // half second
 int MODE_TIMEOUT = 30000;    // 30 seconds
 bool TIME_24_HOUR = false;
@@ -106,7 +107,7 @@ void showHour () {
 void showMinute () {
   int minute = getMinute();
   disp.writeDigitNum(3, minute / 10);
-  disp.writeDigitNum(4, minute % 10);
+  disp.writeDigitNum(4, minute % 10, IS_PM);
 }
 
 void readOptions () {
@@ -176,6 +177,8 @@ void cycleMode () {
 int getHour () {
   DateTime now = RTC.now();
   int hour = now.hour();
+
+  IS_PM = hour > 12;
 
   if (!TIME_24_HOUR) {
     if (hour > 12) hour -=12;
