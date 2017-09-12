@@ -134,7 +134,7 @@ void readOptions () {
 
 void incrementMode () {
   MODE_TIMER = millis();
-  MODE++;
+  MODE += 1;
   if (MODE > 4) MODE = 0;
   Serial.println(CURRENT_MODE_PROMPTS[MODE]);
 }
@@ -156,10 +156,8 @@ void incrementMinute () {
 }
 
 void incrementBrightness () {
-  BRIGHTNESS++;
-  if (BRIGHTNESS > 15) {
-    BRIGHTNESS = 0;
-  }
+  BRIGHTNESS += 1;
+  if (BRIGHTNESS > 15) BRIGHTNESS = 0;
   disp.setBrightness(BRIGHTNESS);
 }
 
