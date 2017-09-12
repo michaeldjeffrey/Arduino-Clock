@@ -14,20 +14,20 @@ char *CURRENT_MODE_PROMPTS[] = {
 RTC_DS3231 RTC;
 Adafruit_7segment disp = Adafruit_7segment();
 
-bool IS_PM = false;
-bool TIME_24_HOUR = false;
-bool SHOW_COLON = false;
-
-int COLON_BLINK_RATE = 500;  // half second
-int MODE_TIMEOUT = 30000;    // 30 seconds
-
-int BRIGHTNESS = 10;
-int MODE = 0;
-int HOUR = 0;
-int MINUTE = 0;
-
 TimeSpan ONE_MINUTE = TimeSpan(60);
 TimeSpan ONE_HOUR   = TimeSpan(60 * 60);
+
+bool IS_PM        = false;
+bool TIME_24_HOUR = false;
+bool SHOW_COLON   = false;
+
+int COLON_BLINK_RATE = 500;  // half second
+int MODE_TIMEOUT     = 30000;    // 30 seconds
+
+int BRIGHTNESS = 10;
+int MODE       = 0;
+int HOUR       = 0;
+int MINUTE     = 0;
 
 long COLON_TIMER;
 long MODE_TIMER;
