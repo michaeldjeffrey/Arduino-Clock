@@ -149,8 +149,12 @@ void incrementHour () {
 
 void incrementMinute () {
   DateTime now = RTC.now();
-  TimeSpan oneMinute = TimeSpan(60);
-  RTC.adjust(now + oneMinute);
+  // Don't increase the hour when adjusting minutes.
+  if (now.minute() == 59) {
+    RTC.adjust(now - TimeSpan(60 * 59));
+  } else {
+    RTC.adjust(now + TimeSpan(60));
+  }
 }
 
 void incrementBrightness () {
