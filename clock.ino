@@ -43,23 +43,26 @@ void loop () {
   modeTimeout();
   disp.clear();
   switch (MODE) {
-    case 0:
-      showTime();
-      break;
-    case 1:
-      editTimeDisplay();
-      break;
-    case 2: 
-      editHourDisplay();
-      break;
-    case 3:
-      editMinutesDisplay();
-      break;
-    case 4:
-      editBrightnessDisplay();
-      break;
-    default:
-      disp.print(MODE);
+  case 0:  // Display Time
+    showHour();
+    showMinute();
+    break;
+  case 1:  // 12 - 24 selection
+    disp.print((TIME_24_HOUR ? 24 : 12) * 100);
+    break;
+  case 2:  // Change Hours.
+    if (showColon) showHour();
+    showMinute();
+    break;
+  case 3:  // Change Minutes.
+    showHour();
+    if (showColon) showMinute();
+    break;
+  case 4:  // Change Brightness
+    disp.print(BRIGTHNESS);
+    break;
+  default: // catch
+    disp.print(MODE);
   }
   blinkColon();
   disp.writeDisplay();
@@ -79,53 +82,21 @@ void blinkColon () {
   disp.drawColon(showColon);
 }
 
-void showTime () {
-  int displayValue = getDecimalTime();
-  disp.print(displayValue, DEC);
+void showHour () {
+  int hour = getHour();
 
-  // Pad hours when the time isn't big enough.
-  if (TIME_24_HOUR) {
-    if (displayValue < 1000) disp.writeDigitNum(0, 0);
-    if (displayValue < 100 ) disp.writeDigitNum(1, 0);
-  }
-  // show a zero in minute1 for 00:00 through 00:09.
-  if (displayValue < 10) disp.writeDigitNum(3, 0);
-}
-
-void editTimeDisplay () {
-  int currentDisplay;
-  if (showColon) {
-    currentDisplay = TIME_24_HOUR ? 24 : 12;
-    disp.print(currentDisplay * 100);
-  }
-}
-
-void editHourDisplay () {
-  int decimalTime = getDecimalTime();
-  int minute;
-  if (showColon) {
-    showTime();
-  } else {
-    minute = decimalTime % 100;
-    disp.writeDigitNum(3, minute / 10);
-    disp.writeDigitNum(4, minute % 10);
-  }
-}
-
-void editMinutesDisplay () {
-  int decimalTime = getDecimalTime();
-  int hour;
-  if (showColon) {
-    showTime();
-  } else {
-    hour = decimalTime / 100;
+  // Only print first digit for 24 hour time
+  // And greater than 10
+  if (TIME_24_HOUR || (hour / 10) > 0) {
     disp.writeDigitNum(0, hour / 10);
-    disp.writeDigitNum(1, hour % 10);
   }
+  disp.writeDigitNum(1, hour % 10);
 }
 
-void editBrightnessDisplay () {
-  disp.print(BRIGHTNESS);
+void showMinute () {
+  int minute = getMinute();
+  disp.writeDigitNum(3, minute / 10);
+  disp.writeDigitNum(4, minute % 10);
 }
 
 void readOptions () {
