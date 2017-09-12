@@ -3,6 +3,14 @@
 #include "Adafruit_GFX.h"
 #include "RTClib.h"
 
+char *MODE_INSTRUCTIONS[] = {
+  "Showing Time",
+  "12 - 24 Selection",
+  "Change Hours",
+  "Change Minutes",
+  "Change Brightness"
+};
+
 RTC_DS3231 RTC;
 Adafruit_7segment disp = Adafruit_7segment();
 
@@ -112,8 +120,6 @@ void readOptions () {
     }
     if (ch == '1') {
       cycleMode();
-      Serial.print("Current Mode:");
-      Serial.println(MODE);
     } else if (ch == '2') {
       switch (MODE) {
       case 1:
@@ -152,26 +158,7 @@ void cycleMode () {
   if ( MODE > 4 ) {
     MODE = 0;
   }
-  switch (MODE) {
-    case 0:
-      Serial.println("Showing Time");
-      break;
-    case 1:
-      Serial.println("Editing Time Display 12|24");
-      Serial.println("[x] change display");
-      break;
-    case 2:
-      Serial.println("Editing Hours");
-      Serial.println("[i]ncrement hour | [d]ecrement hour");
-      break;
-    case 3:
-      Serial.println("Editing Minutes");
-      Serial.println("[i]ncrement minutes | [d]ecrement minutes");
-      break;
-    case 4:
-      Serial.println("Editing Brightness");
-      Serial.println("[i]ncrement brightness | [d]ecrement brightness");
-  }
+  Serial.println(MODE_INSTRUCTIONS[MODE]);
 }
 
 int getHour () {
