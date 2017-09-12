@@ -133,6 +133,17 @@ void readOptions () {
   }
 }
 
+void incrementHour () {}
+
+void incrementMinute () {}
+
+void incrementBrightness () {
+  BRIGHTNESS++;
+  if (BRIGHTNESS > 15) {
+    BRIGHTNESS = 0;
+  }
+}
+
 void cycleMode () {
   modeTimer = millis();
   MODE++;
