@@ -36,7 +36,6 @@ void setup () {
 
 void loop () {
   readOptions();
-  disp.blinkRate(0);
   disp.clear();
   switch (MODE) {
     case 0:
