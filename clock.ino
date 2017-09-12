@@ -29,7 +29,7 @@ void setup () {
   Wire.begin();
   RTC.begin();
   // Uncomment to set to time of compilation
-  //RTC.adjust(DateTime(__DATE__, __TIME__));
+  // RTC.adjust(DateTime(__DATE__, __TIME__));
   
   disp.begin(0x70);
   disp.setBrightness(BRIGHTNESS);
