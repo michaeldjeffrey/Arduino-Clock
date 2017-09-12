@@ -25,11 +25,9 @@ void setup () {
   Serial.begin(9600);
   Wire.begin();
   RTC.begin();
-  //if (! RTC.isrunning()) {
-    // Uncomment to set the time to the time
-    // the sketch was compiled.
-     //RTC.adjust(DateTime(__DATE__, __TIME__));
-//  }
+  // Uncomment to set to time of compilation
+  //RTC.adjust(DateTime(__DATE__, __TIME__));
+  
   disp.begin(0x70);
   Serial.println("[c]urrent mode | [n]ext mode");
   disp.setBrightness(BRIGHTNESS);
